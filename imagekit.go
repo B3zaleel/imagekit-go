@@ -102,9 +102,15 @@ type FilesFetchParams struct {
 
 // Runs an http request.
 func (imgKit *ImageKit) DoRequest(req *http.Request) (body string, err error) {
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: time.Second * 360,
+	}
 	fetchRequest := true
 	res := new(http.Response)
+	req.Header.Set("Connection", "Keep-Alive")
+	req.Header.Set("Accept-Language", "en-US")
+	req.Header.Set("Accept", "text/html,application/xml,application/json;*/*;")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
 	req.SetBasicAuth(imgKit.PrivateKey, "")
 	for ; fetchRequest; {
 		res, err = client.Do(req)
