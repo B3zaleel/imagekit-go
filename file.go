@@ -45,6 +45,9 @@ func (imgKit *ImageKit) GetFileDetails(fileId string) (fileDetail *FileDetails, 
 		fmt.Sprintf("%s/files/%s/details", BASE_URL, fileId),
 		bytes.NewBufferString(""),
 	)
+	if err != nil {
+		return nil, err
+	}
 	req.Header.Set("Content-Type", "application/json")
 	resBodyStr, err := imgKit.DoRequest(req)
 	if err != nil {
@@ -120,10 +123,7 @@ func (imgKit *ImageKit) CopyFile(srcFilePath, destFolderPath string) (err error)
 	)
 	req.Header.Set("Content-Type", "application/json")
 	_, err = imgKit.DoRequest(req)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // Move a file.
@@ -142,10 +142,7 @@ func (imgKit *ImageKit) MoveFile(srcFilePath, destFolderPath string) (err error)
 	)
 	req.Header.Set("Content-Type", "application/json")
 	_, err = imgKit.DoRequest(req)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // Rename a file.
