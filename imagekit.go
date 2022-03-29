@@ -104,10 +104,10 @@ type FilesFetchParams struct {
 func (imgKit *ImageKit) DoRequest(req *http.Request) (body string, err error) {
 	client := &http.Client{}
 	fetchRequest := true
-	var res http.Response
+	res := new(http.Response)
 	req.SetBasicAuth(imgKit.PrivateKey, "")
 	for ; fetchRequest; {
-		res, err := client.Do(req)
+		res, err = client.Do(req)
 		if err != nil {
 			return "", err
 		}
@@ -119,10 +119,13 @@ func (imgKit *ImageKit) DoRequest(req *http.Request) (body string, err error) {
 			if err != nil {
 				return "", err
 			}
-			time.Sleep(time.Millisecond * time.Duration(waitTime))
+			time.Sleep(time.Millisecond * (time.Duration(waitTime) / time.Millisecond))
 		}
 	}
 	buf := new(bytes.Buffer)
+	if buf == nil || res.Body == nil {
+		return "", errors.New("failed to create bytes buffer")
+	}
 	buf.ReadFrom(res.Body)
 	body = buf.String()
 	if res.StatusCode < 200 || res.StatusCode > 299 {
