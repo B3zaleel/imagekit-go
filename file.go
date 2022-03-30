@@ -175,3 +175,49 @@ func (imgKit *ImageKit) RenameFile(srcFilePath, newFileName string, purgeCache .
 	}
 	return (*renameResponseFields)["purgeRequestId"], nil
 }
+
+// Purge a file's cache.
+func (imgKit *ImageKit) PurgeCache(fileUrl string) (requestId string, err error) {
+	reqBody := make(map[string]interface{})
+	reqBody["fileUrl"] = fileUrl
+	reqBodyBytes, err := json.Marshal(reqBody)
+	if err != nil {
+		return "", err
+	}
+	req, err := http.NewRequest(
+		http.MethodPost,
+		fmt.Sprintf("%s/files/purge", BASE_URL),
+		bytes.NewBufferString(string(reqBodyBytes)),
+	)
+	req.Header.Set("Content-Type", "application/json")
+	resBodyStr, err := imgKit.DoRequest(req)
+	if err != nil {
+		return "", err
+	}
+	responseFields := &map[string]string{}
+	err = json.Unmarshal([]byte(resBodyStr), responseFields)
+	if err != nil {
+		return "", err
+	}
+	return (*responseFields)["purgeRequestId"], nil
+}
+
+// Get the status of a purge cache.
+func (imgKit *ImageKit) GetPurgeCacheStatus(requestId string) (status string, err error) {
+	req, err := http.NewRequest(
+		http.MethodGet,
+		fmt.Sprintf("%s/files/purge/%s", BASE_URL, requestId),
+		nil,
+	)
+	req.Header.Set("Content-Type", "application/json")
+	resBodyStr, err := imgKit.DoRequest(req)
+	if err != nil {
+		return "", err
+	}
+	responseFields := &map[string]string{}
+	err = json.Unmarshal([]byte(resBodyStr), responseFields)
+	if err != nil {
+		return "", err
+	}
+	return (*responseFields)["status"], nil
+}
