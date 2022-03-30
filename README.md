@@ -1,4 +1,8 @@
 # imagekit-go
+
+[![GoDoc](https://pkg.go.dev/badge/github.com/B3zaleel/imagekit-go?status.svg)](https://pkg.go.dev/github.com/B3zaleel/imagekit-go?tab=doc)
+[![Release](https://img.shields.io/github/release/B3zaleel/imagekit-go.svg?style=flat-square)](https://github.com/B3zaleel/imagekit-go/releases)
+
 An ImageKit.io SDK for Golang.
 
 ## Installation
@@ -54,3 +58,8 @@ func main() {
 ## Related Projects
 
 + [ImageKit SDK for Python](https://github.com/imagekit-developer/imagekit-python)
++ [ImageKit SDK for Ruby](https://github.com/imagekit-developer/imagekit-ruby)
++ [ImageKit SDK for Nodejs](https://github.com/imagekit-developer/imagekit-nodejs)
++ [ImageKit SDK for .NET](https://github.com/imagekit-developer/imagekit-dotnet)
++ [ImageKit SDK for Java](https://github.com/imagekit-developer/imagekit-java)
++ [ImageKit SDK for PHP](https://github.com/imagekit-developer/imagekit-php)
