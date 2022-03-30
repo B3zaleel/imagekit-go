@@ -385,3 +385,25 @@ func (params FilesFetchParams) BuildURLQuery() (query string, err error) {
 	}
 	return queryBuilder.String(), nil
 }
+
+// Computes the hamming distance between two hexadecimal strings.
+func (imgKit *ImageKit) PHashDistance(hash1, hash2 string) (distance int8) {
+	distance = 0
+	if len(hash1) != len(hash2) {
+		panic("the hashes must be of equal length")
+	}
+	dig1, err := strconv.ParseUint(hash1, 16, 64)
+	if err != nil {
+		panic(err)
+	}
+	dig2, err := strconv.ParseUint(hash2, 16, 64)
+	if err != nil {
+		panic(err)
+	}
+	for i := 0; i < 64; i++ {
+		if (dig1 >> i) & 1 != (dig2 >> i) & 1 {
+			distance++
+		}
+	}
+	return distance
+}
