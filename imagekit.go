@@ -13,12 +13,13 @@ import (
 )
 
 const (
-	BASE_URL = "https://api.imagekit.io/v1"
-	UPLOAD_URL = "https://upload.imagekit.io/api/v1/files/upload"
+	BASE_URL        = "https://api.imagekit.io/v1"
+	UPLOAD_URL      = "https://upload.imagekit.io/api/v1/files/upload"
 	MIN_LIMIT_VALUE = 1
-	MIN_SKIP_VALUE = 0
+	MIN_SKIP_VALUE  = 0
 	MAX_LIMIT_VALUE = 1000
 )
+
 var VALID_TYPES = []string{"all", "file", "folder"}
 var VALID_FILE_TYPES = []string{"all", "image", "non-image"}
 var VALID_SORT_FIELDS = []string{
@@ -52,58 +53,58 @@ type String string
 
 // Represents options for creating or modifying files.
 type FileOptions struct {
-	UseUniqueFileName *Bool
-	Tags *[]String
-	Folder *String
-	IsPrivateFile *Bool
-	CustomCoordinates *String
-	ResponseFields *[]String
-	Extensions *[]interface{}
-	WebhookUrl *String
-	OverwriteFile *Bool
-	OverwriteAITags *Bool
-	OverwriteTags *Bool
+	UseUniqueFileName       *Bool
+	Tags                    *[]String
+	Folder                  *String
+	IsPrivateFile           *Bool
+	CustomCoordinates       *String
+	ResponseFields          *[]String
+	Extensions              *[]interface{}
+	WebhookUrl              *String
+	OverwriteFile           *Bool
+	OverwriteAITags         *Bool
+	OverwriteTags           *Bool
 	OverwriteCustomMetadata *Bool
-	CustomMetadata *interface{}
+	CustomMetadata          *interface{}
 }
 
 // Represents details about a file.
 type FileDetails struct {
-	FileId *String `json:"fileId" binding:"-"`
-	Type *String `json:"type" binding:"-"`
-	Name *String `json:"name" binding:"-"`
-	FilePath *String `json:"filePath" binding:"-"`
-	Tags *[]String `json:"tags" binding:"-"`
-	AITags *[]interface{} `json:"AITags" binding:"-"`
-	IsPrivateFile *Bool `json:"isPrivateFile" binding:"-"`
-	CustomCoordinates *String `json:"customCoordinates" binding:"-"`
-	Url *String `json:"url" binding:"-"`
-	Thumbnail *String `json:"thumbnail" binding:"-"`
-	FileType *String `json:"fileType" binding:"-"`
-	Mime *String `json:"mime" binding:"-"`
-	Height Int32 `json:"height" binding:"-"`
-	Width Int32 `json:"width" binding:"-"`
-	Size Int32 `json:"size" binding:"-"`
-	HasAlpha *Bool `json:"hasAlpha" binding:"-"`
-	CustomMetadata *interface{} `json:"customMetadata" binding:"-"`
-	EmbeddedMetadata *interface{} `json:"embeddedMetadata" binding:"-"`
-	CreatedAt *time.Time `json:"createdAt" binding:"-" time_format:"YYYY-MM-DDTHH:mm:ss.sssZ"`
-	UpdatedAt *time.Time `json:"updatedAt" binding:"-" time_format:"YYYY-MM-DDTHH:mm:ss.sssZ"`
-	ExtensionStatus map[string]string `json:"extensionStatus" binding:"-"`
+	FileId            *String           `json:"fileId" binding:"-"`
+	Type              *String           `json:"type" binding:"-"`
+	Name              *String           `json:"name" binding:"-"`
+	FilePath          *String           `json:"filePath" binding:"-"`
+	Tags              *[]String         `json:"tags" binding:"-"`
+	AITags            *[]interface{}    `json:"AITags" binding:"-"`
+	IsPrivateFile     *Bool             `json:"isPrivateFile" binding:"-"`
+	CustomCoordinates *String           `json:"customCoordinates" binding:"-"`
+	Url               *String           `json:"url" binding:"-"`
+	Thumbnail         *String           `json:"thumbnail" binding:"-"`
+	FileType          *String           `json:"fileType" binding:"-"`
+	Mime              *String           `json:"mime" binding:"-"`
+	Height            Int32             `json:"height" binding:"-"`
+	Width             Int32             `json:"width" binding:"-"`
+	Size              Int32             `json:"size" binding:"-"`
+	HasAlpha          *Bool             `json:"hasAlpha" binding:"-"`
+	CustomMetadata    *interface{}      `json:"customMetadata" binding:"-"`
+	EmbeddedMetadata  *interface{}      `json:"embeddedMetadata" binding:"-"`
+	CreatedAt         *time.Time        `json:"createdAt" binding:"-" time_format:"YYYY-MM-DDTHH:mm:ss.sssZ"`
+	UpdatedAt         *time.Time        `json:"updatedAt" binding:"-" time_format:"YYYY-MM-DDTHH:mm:ss.sssZ"`
+	ExtensionStatus   map[string]string `json:"extensionStatus" binding:"-"`
 }
 
 // Represents query parameters for fetching files from imagekit.io.
 type FilesFetchParams struct {
 	Type, Sort, Path, SearchQuery *String
-	Tags *[]String
-	FileType *String
-	Limit, Skip *Int32
+	Tags                          *[]String
+	FileType                      *String
+	Limit, Skip                   *Int32
 }
 
 // Represents details about a bulk job.
 type JobDetails struct {
-	JobId String `json:"jobId" binding:"-"`
-	Type String `json:"type" binding:"-"`
+	JobId  String `json:"jobId" binding:"-"`
+	Type   String `json:"type" binding:"-"`
 	Status String `json:"status" binding:"-"`
 }
 
@@ -119,7 +120,7 @@ func (imgKit *ImageKit) DoRequest(req *http.Request) (body string, err error) {
 	req.Header.Set("Accept", "text/html,application/xml,application/json;*/*;")
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
 	req.SetBasicAuth(imgKit.PrivateKey, "")
-	for ; fetchRequest; {
+	for fetchRequest {
 		res, err = client.Do(req)
 		if err != nil {
 			return "", err
@@ -238,8 +239,10 @@ func (options FileOptions) ToJSON() (jsonStr string, err error) {
 	var jsonBuilder strings.Builder
 	jsonBuilder.WriteRune('{')
 	delim := '0'
-	jsonPut := func (str string) {
-		if delim != '0' { jsonBuilder.WriteRune(delim) }
+	jsonPut := func(str string) {
+		if delim != '0' {
+			jsonBuilder.WriteRune(delim)
+		}
 		jsonBuilder.WriteString(str)
 		delim = ','
 	}
@@ -338,8 +341,10 @@ func (options FileOptions) ToJSON() (jsonStr string, err error) {
 func (params FilesFetchParams) BuildURLQuery() (query string, err error) {
 	var queryBuilder strings.Builder
 	delim := '0'
-	queryPut := func (str string) {
-		if delim != '0' { queryBuilder.WriteRune(delim) }
+	queryPut := func(str string) {
+		if delim != '0' {
+			queryBuilder.WriteRune(delim)
+		}
 		queryBuilder.WriteString(url.QueryEscape(str))
 		delim = '&'
 	}
@@ -401,7 +406,7 @@ func (imgKit *ImageKit) PHashDistance(hash1, hash2 string) (distance int8) {
 		panic(err)
 	}
 	for i := 0; i < 64; i++ {
-		if (dig1 >> i) & 1 != (dig2 >> i) & 1 {
+		if (dig1>>i)&1 != (dig2>>i)&1 {
 			distance++
 		}
 	}

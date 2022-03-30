@@ -1,10 +1,10 @@
 package imagekit
 
 import (
-	"fmt"
 	"bytes"
-	"net/http"
 	"encoding/json"
+	"fmt"
+	"net/http"
 )
 
 // List and search files.

@@ -1,18 +1,18 @@
 package imagekit
 
 import (
-	"os"
-	"fmt"
-	"time"
 	"bytes"
+	"encoding/base64"
+	"encoding/json"
 	"errors"
+	"fmt"
+	"math/rand"
+	"net/http"
+	"net/url"
+	"os"
 	"strconv"
 	"strings"
-	"net/url"
-	"net/http"
-	"math/rand"
-	"encoding/json"
-	"encoding/base64"
+	"time"
 )
 
 // Uploads a file to ImageKit.io.
@@ -109,11 +109,11 @@ func getBody(
 			"Content-Disposition: form-data; name=\"%s\"\r\n",
 			key,
 		))
-		formBodyBuilder.WriteString(fmt.Sprintf("Content-Type: text/plain",))
+		formBodyBuilder.WriteString(fmt.Sprintf("Content-Type: text/plain"))
 		formBodyBuilder.WriteString("\r\n\r\n")
 		formBodyBuilder.WriteString(val)
 		formBodyBuilder.WriteString("\r\n")
-		if i == len(dataFields) - 1 {
+		if i == len(dataFields)-1 {
 			formBodyBuilder.WriteString(fmt.Sprintf("--%s--", boundary))
 		}
 		i++
@@ -128,7 +128,7 @@ func getRandomHex(length int) string {
 	for i := 0; i < length; i++ {
 		n := rand.New(randSrc).Intn(16)
 		if n > 9 {
-			randInts[i] = byte('A') + byte(n - 10)
+			randInts[i] = byte('A') + byte(n-10)
 		} else {
 			randInts[i] = byte('0') + byte(n)
 		}
