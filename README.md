@@ -1,5 +1,6 @@
 # imagekit-go
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/B3zaleel/imagekit-go)](https://goreportcard.com/report/github.com/B3zaleel/imagekit-go)
 [![GoDoc](https://pkg.go.dev/badge/github.com/B3zaleel/imagekit-go?status.svg)](https://pkg.go.dev/github.com/B3zaleel/imagekit-go?tab=doc)
 [![Release](https://img.shields.io/github/release/B3zaleel/imagekit-go.svg?style=flat-square)](https://github.com/B3zaleel/imagekit-go/releases)
 
