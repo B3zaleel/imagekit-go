@@ -125,3 +125,27 @@ func (imgKit *ImageKit) RemoveTags(fileIds, tags []string) (updatedFileIds []str
 	}
 	return updatedFileIds, nil
 }
+
+// Get details of a bulk job.
+func (imgKit *ImageKit) GetBulkJobStatus(
+	jobId string) (jobDetails *JobDetails, err error) {
+	req, err := http.NewRequest(
+		http.MethodGet,
+		fmt.Sprintf("%s/bulkJobs/%s", BASE_URL, jobId),
+		nil,
+	)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	resBodyStr, err := imgKit.DoRequest(req)
+	if err != nil {
+		return nil, err
+	}
+	jobDetails = &JobDetails{}
+	err = json.Unmarshal([]byte(resBodyStr), jobDetails)
+	if err != nil {
+		return nil, err
+	}
+	return jobDetails, nil
+}

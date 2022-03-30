@@ -100,6 +100,13 @@ type FilesFetchParams struct {
 	Limit, Skip *Int32
 }
 
+// Represents details about a bulk job.
+type JobDetails struct {
+	JobId String `json:"jobId" binding:"-"`
+	Type String `json:"type" binding:"-"`
+	Status String `json:"status" binding:"-"`
+}
+
 // Runs an http request.
 func (imgKit *ImageKit) DoRequest(req *http.Request) (body string, err error) {
 	client := &http.Client{
